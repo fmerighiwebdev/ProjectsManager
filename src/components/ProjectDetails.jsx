@@ -1,46 +1,31 @@
 import React from "react";
-import { format, set } from "date-fns";
+import { format } from "date-fns";
 import { v4 as uuidv4 } from "uuid";
 
 import Input from "./Input";
 import Task from "./Task";
 
 function ProjectDetails({ project, handleDeleteProject, error, setError }) {
-  const [task, setTask] = React.useState({
-    id: null,
-    title: "",
-    projectId: "",
-  });
+
+  const taskTitleRef = React.useRef(null);
 
   const [tasks, setTasks] = React.useState([]);
-
-  function handleChanges(e) {
-    setError(null);
-    setTask((prevTask) => ({
-      ...prevTask,
-      title: e.target.value,
-    }));
-  }
 
   function handleSaveTask() {
     const newTask = {
       id: uuidv4(),
-      title: task.title,
+      title: taskTitleRef.current.value,
       projectId: project.id,
     };
 
-    if (task.title === "") {
+    if (taskTitleRef.current.value === "") {
       setError("You must insert a task");
       return;
     }
 
     setTasks((prevTasks) => [...prevTasks, newTask]);
 
-    setTask({
-      id: null,
-      title: "",
-      projectId: "",
-    });
+    taskTitleRef.current.value = "";
   }
 
   function handleDeleteTask(id) {
@@ -67,7 +52,7 @@ function ProjectDetails({ project, handleDeleteProject, error, setError }) {
       <div className="tasks flex flex-col pt-8 gap-8">
         <h2 className="text-5xl font-bold text-zinc-600">Tasks</h2>
         <div className="tasks-input flex gap-8">
-          <Input type="text" onChange={handleChanges} error={error} value={task.title} />
+          <Input type="text" error={error} ref={taskTitleRef} />
           <button onClick={handleSaveTask}>Add Task</button>
         </div>
       </div>

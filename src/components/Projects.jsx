@@ -19,6 +19,14 @@ function Projects({
 
   const [error, setError] = React.useState(null);
 
+  React.useEffect(() => {
+    const timeout = setTimeout(() => {
+      setError(null);
+    }, 5000);
+
+    return () => clearTimeout(timeout);
+  }, [error]);
+
   function handleAddActive() {
     setIsAddProjectActive(!isAddProjectActive);
     setError(null);
