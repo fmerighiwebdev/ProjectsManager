@@ -1,24 +1,12 @@
 import React from 'react';
-import { v4 as uuidv4 } from "uuid";
 
 import Input from './Input';
 
-function AddProjectForm({ setProject, error, setError }) {
+const AddProjectForm = React.forwardRef(function AddProjectForm({ error }, ref) {
 
-    function handleChanges(e) {
-      setError(null);
-      let newValue = e.target.value;
-
-      if (e.target.name === "date") {
-        newValue = new Date(e.target.value);
-      }
-
-      setProject((prevProject) => ({
-        ...prevProject,
-        id: uuidv4(),
-        [e.target.name]: newValue,
-      }));
-    }
+  const titleRef = ref[0];
+  const descriptionRef = ref[1];
+  const dateRef = ref[2];
 
   return (
     <form className="flex flex-col gap-4">
@@ -26,8 +14,8 @@ function AddProjectForm({ setProject, error, setError }) {
         label="Title*"
         type="text"
         name="title"
-        onChange={handleChanges}
         error={error}
+        ref={titleRef}
       />
       <Input
         label="Description"
@@ -35,18 +23,18 @@ function AddProjectForm({ setProject, error, setError }) {
         textarea="true"
         rows={3}
         name="description"
-        onChange={handleChanges}
         error={error}
+        ref={descriptionRef}
       />
       <Input
         label="Due date*"
         type="date"
         name="date"
-        onChange={handleChanges}
         error={error}
+        ref={dateRef}
       />
     </form>
   );
-}
+});
 
-export default AddProjectForm
+export default AddProjectForm;

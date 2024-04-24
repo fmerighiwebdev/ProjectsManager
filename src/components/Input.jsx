@@ -1,6 +1,6 @@
 import React from "react";
 
-function Input(props) {
+const Input = React.forwardRef(function Input(props, ref) {
 
   let cssInputClasses = "w-full px-2 py-2 font-sans bg-zinc-300 border-b-4 border-zinc-400 outline-0 rounded-md transition-all focus:border-zinc-500";
 
@@ -16,16 +16,18 @@ function Input(props) {
       {props.textarea ? (
         <textarea
           {...props}
+          ref={ref}
           className="w-full px-2 py-2 font-sans bg-zinc-300 border-b-4 border-zinc-400 outline-0 rounded-md transition-all focus:border-zinc-500"
         ></textarea>
       ) : (
         <input
           {...props}
+          ref={ref}
           className={cssInputClasses}
         ></input>
       )}
     </div>
   );
-}
+});
 
 export default Input;

@@ -1,10 +1,10 @@
 import React from "react";
+import { v4 as uuidv4 } from "uuid";
 
 import AddProjectForm from "./AddProjectForm";
 import ProjectDetails from "./ProjectDetails";
 
 import logo from "../assets/no-projects.png";
-import { set } from "date-fns";
 
 function Projects({
   isAddProjectActive,
@@ -13,13 +13,11 @@ function Projects({
   projects,
   selected,
 }) {
+  const titleRef = React.useRef(null);
+  const descriptionRef = React.useRef(null);
+  const dateRef = React.useRef(null);
+
   const [error, setError] = React.useState(null);
-  const [project, setProject] = React.useState({
-    id: null,
-    title: "",
-    description: "",
-    date: "",
-  });
 
   function handleAddActive() {
     setIsAddProjectActive(!isAddProjectActive);
@@ -29,35 +27,36 @@ function Projects({
   function handleSaveProjects(e) {
     e.preventDefault();
 
-    if (project.title === "" && (project.date === "" || project.date === null)) {
-      setError("You must insert a title and a date");
+    if (!titleRef.current.value || !dateRef.current.value) {
+      setError("Titolo e data sono campi obbligatori");
       return;
     }
-    if (project.title === "") {
-      setError("You must insert a title");
+
+    if (!titleRef.current.value) {
+      setError("Titolo è un campo obbligatorio");
       return;
     }
-    if (project.description === "") {
-      project.description = "Senza descrizione";
-    }
-    if (project.date === null || project.date === "") {
-      setError("You must insert a date");
+
+    if (!dateRef.current.value) {
+      setError("Data è un campo obbligatorio");
       return;
     }
+
+    if (!descriptionRef.current.value) {
+      descriptionRef.current.value = "Senza descrizione";
+    }
+
+    const newProject = {
+      id: uuidv4(),
+      title: titleRef.current.value,
+      description: descriptionRef.current.value,
+      date: dateRef.current.value,
+    };
 
     setProjects((prevProjects) => {
-      return [...prevProjects, project];
+      return [...prevProjects, newProject];
     });
     setIsAddProjectActive(false);
-
-    console.log(project);
-
-    setProject({
-      id: null,
-      title: "",
-      description: "",
-      date: "",
-    });
   }
 
   const selectedProject = projects.find((project) => project.id === selected);
@@ -109,7 +108,11 @@ function Projects({
                 Salva
               </button>
             </div>
-            <AddProjectForm setProject={setProject} error={error} setError={setError} />
+            <AddProjectForm
+              ref={[titleRef, descriptionRef, dateRef]}
+              error={error}
+              setError={setError}
+            />
           </div>
         </section>
       )}
