@@ -1,0 +1,72 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.add-btn {
+    background-color: #322E2A;
+    color: #aca5a1;
+}
+
+.add-btn:hover {
+    background-color: #49443e;
+}
+
+.project-item:hover {
+    background-color: #322e2a4e;
+}
+
+.project-item.active {
+    background-color: #322e2a72;
+}
+
+.form-container {
+    width: min(600px, 90%);
+}
+
+.add-project-container {
+    animation: fadeIn .3s ease-in-out forwards;
+}
+
+.project-details-container {
+    animation: fadeIn .3s ease-in-out forwards;
+}
+
+.project-details {
+    width: min(900px, 90%);
+}
+
+.tasks-input input {
+    width: 350px;
+}
+
+.tasks-list-container {
+ width: min(600px, 90%);
+}
+
+.error-toast {
+    animation: fadeInFromTopBounce .5s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInFromTopBounce {
+    0% {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    50% {
+        transform: translateY(20%);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
