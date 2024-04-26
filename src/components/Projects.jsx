@@ -5,6 +5,7 @@ import AddProjectForm from "./AddProjectForm";
 import ProjectDetails from "./ProjectDetails";
 
 import logo from "../assets/no-projects.png";
+import ErrorModal from "./ErrorModal";
 
 function Projects({
   isAddProjectActive,
@@ -16,15 +17,20 @@ function Projects({
   const titleRef = React.useRef(null);
   const descriptionRef = React.useRef(null);
   const dateRef = React.useRef(null);
+  const modalRef = React.useRef(null);
 
   const [error, setError] = React.useState(null);
 
   React.useEffect(() => {
-    const timeout = setTimeout(() => {
+    if (error) {
+      modalRef.current.openModal();
+    }
+
+    const timer = setTimeout(() => {
       setError(null);
     }, 5000);
 
-    return () => clearTimeout(timeout);
+    return () => clearTimeout(timer);
   }, [error]);
 
   function handleAddActive() {
@@ -35,8 +41,8 @@ function Projects({
   function handleSaveProjects(e) {
     e.preventDefault();
 
-    if (!titleRef.current.value || !dateRef.current.value) {
-      setError("Titolo e data sono campi obbligatori");
+    if (!titleRef.current.value && !dateRef.current.value) {
+      setError("Titolo e data di scadenza sono campi obbligatori");
       return;
     }
 
@@ -46,7 +52,12 @@ function Projects({
     }
 
     if (!dateRef.current.value) {
-      setError("Data è un campo obbligatorio");
+      setError("Data di scadenza è un campo obbligatorio");
+      return;
+    }
+
+    if (dateRef.current.value < new Date().toISOString().split("T")[0]) {
+      setError("La data di scadenza deve essere successiva a quella odierna");
       return;
     }
 
@@ -97,9 +108,7 @@ function Projects({
       {isAddProjectActive && (
         <section className="add-project-container z-50 flex flex-col justify-center items-center w-full h-screen bg-white absolute top-0 left-0">
           {error && (
-            <div className="error-toast bg-red-200 text-red-800 p-2 rounded-md w-72 text-center absolute top-10">
-              {error}
-            </div>
+            <ErrorModal error={error} ref={modalRef} />
           )}
           <div className="form-container">
             <div className="buttons-control flex gap-4 justify-end items-center mb-10">

@@ -43,8 +43,8 @@
  width: min(600px, 90%);
 }
 
-.error-toast {
-    animation: fadeInFromTopBounce .5s ease-in-out forwards;
+.error-modal {
+    animation: fadeIn .5s ease-in-out forwards;
 }
 
 @keyframes fadeIn {
@@ -57,16 +57,12 @@
     }
 }
 
-@keyframes fadeInFromTopBounce {
-    0% {
-        transform: translateY(-100%);
-        opacity: 0;
-    }
-    50% {
-        transform: translateY(20%);
+@keyframes fadeOut {
+    from {
         opacity: 1;
     }
-    100% {
-        transform: translateY(0);
+
+    to {
+        opacity: 0;
     }
 }

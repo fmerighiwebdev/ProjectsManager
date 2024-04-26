@@ -12,7 +12,7 @@ function Sidebar({ setIsAddProjectActive, projects, selected, setSelected }) {
   }
 
   return (
-    <aside className="w-1/4 bg-black h-full p-8 rounded-tr-3xl rounded-br-3xl shadow-2xl shadow-black z-50">
+    <aside className="w-1/4 bg-black h-full p-8 shadow-2xl shadow-black z-50">
       <h1 className="text-slate-100 mt-8 text-center font-bold uppercase text-3xl">
         Your Projects
       </h1>

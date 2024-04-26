@@ -11,14 +11,14 @@ const AddProjectForm = React.forwardRef(function AddProjectForm({ error }, ref) 
   return (
     <form className="flex flex-col gap-4">
       <Input
-        label="Title*"
+        label="Titolo*"
         type="text"
         name="title"
         error={error}
         ref={titleRef}
       />
       <Input
-        label="Description"
+        label="Descrizione"
         type="text"
         textarea="true"
         rows={3}
@@ -27,7 +27,7 @@ const AddProjectForm = React.forwardRef(function AddProjectForm({ error }, ref) 
         ref={descriptionRef}
       />
       <Input
-        label="Due date*"
+        label="Scadenza*"
         type="date"
         name="date"
         error={error}
